@@ -5,10 +5,11 @@ import {
   FileText, 
   CheckCircle, 
   ChevronRight, 
-  LogOut,
-  Clock,
+  LogOut, 
+  Clock, 
   Zap, 
-  ArrowRight
+  ArrowRight,
+  UploadCloud // Added for specific upload icon context if needed, though using FileText/CheckCircle mostly
 } from 'lucide-react';
 
 // --- THEME & UI CONSTANTS ---
@@ -129,6 +130,8 @@ const LoginPage = ({ onLogin }) => {
 
 const OnboardingPage = ({ onNext }) => {
   const [selectedSectors, setSelectedSectors] = useState(["Web Development"]);
+  const [fileName, setFileName] = useState(null);
+  const fileInputRef = useRef(null);
 
   const toggleSector = (sector) => {
     if (selectedSectors.includes(sector)) {
@@ -137,6 +140,12 @@ const OnboardingPage = ({ onNext }) => {
       if (selectedSectors.length < 2) {
         setSelectedSectors(prev => [...prev, sector]);
       }
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFileName(e.target.files[0].name);
     }
   };
 
@@ -187,13 +196,36 @@ const OnboardingPage = ({ onNext }) => {
         
         <Card title="Knowledge Base" subtitle="Agent Context Source">
           <div className="space-y-4">
-             {/* Upload Area - Visual Only in this step */}
-             <div className="border-2 border-dashed border-[#E5E7EB] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-[#F8FAFC] hover:border-[#8B5CF6] transition-all cursor-pointer group relative">
-                <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                  <FileText size={20} className="text-[#8B5CF6]" />
-                </div>
-                <span className="text-sm font-bold text-[#111827] group-hover:text-[#6D28D9]">Upload Company Profile</span>
-                <span className="text-[10px] text-[#9CA3AF] mt-1">PDF, DOCX, PPTX (Max 20MB)</span>
+             {/* Upload Area */}
+             <div 
+                className="border-2 border-dashed border-[#E5E7EB] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-[#F8FAFC] hover:border-[#8B5CF6] transition-all cursor-pointer group relative"
+                onClick={() => fileInputRef.current?.click()}
+             >
+                <input 
+                  type="file" 
+                  className="hidden" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange}
+                  accept=".pdf,.docx,.pptx"
+                />
+                
+                {fileName ? (
+                  <>
+                    <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center mb-3">
+                      <CheckCircle size={20} className="text-emerald-500" />
+                    </div>
+                    <span className="text-sm font-bold text-[#111827]">{fileName}</span>
+                    <span className="text-[10px] text-emerald-600 mt-1">Ready for analysis</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                      <FileText size={20} className="text-[#8B5CF6]" />
+                    </div>
+                    <span className="text-sm font-bold text-[#111827] group-hover:text-[#6D28D9]">Upload Company Profile</span>
+                    <span className="text-[10px] text-[#9CA3AF] mt-1">PDF, DOCX, PPTX (Max 20MB)</span>
+                  </>
+                )}
              </div>
 
              {/* Quotation / Instruction Text */}
