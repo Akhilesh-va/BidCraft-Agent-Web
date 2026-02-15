@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Building2, 
-  FileUp, 
   Cpu, 
   FileText, 
   CheckCircle, 
-  ChevronRight,
+  ChevronRight, 
   LogOut,
   Clock,
   Zap, 
@@ -142,7 +141,7 @@ const OnboardingPage = ({ onNext }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-10 w-full px-4 animate-fade-in">
+    <div className="max-w-4xl mx-auto py-10 w-full px-4 animate-fade-in pb-20">
       <div className="flex items-center gap-4 mb-8">
         <div className="p-3 bg-[#EDE9FE] rounded-lg text-[#6D28D9] border border-[#DDD6FE]"><Building2 size={24} /></div>
         <div>
@@ -191,7 +190,7 @@ const OnboardingPage = ({ onNext }) => {
              {/* Upload Area - Visual Only in this step */}
              <div className="border-2 border-dashed border-[#E5E7EB] rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-[#F8FAFC] hover:border-[#8B5CF6] transition-all cursor-pointer group relative">
                 <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                  <FileUp size={20} className="text-[#8B5CF6]" />
+                  <FileText size={20} className="text-[#8B5CF6]" />
                 </div>
                 <span className="text-sm font-bold text-[#111827] group-hover:text-[#6D28D9]">Upload Company Profile</span>
                 <span className="text-[10px] text-[#9CA3AF] mt-1">PDF, DOCX, PPTX (Max 20MB)</span>
@@ -249,14 +248,14 @@ const DashboardPage = ({ onNew }) => {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto py-10 w-full px-4 animate-fade-in">
+    <div className="max-w-6xl mx-auto py-10 w-full px-4 animate-fade-in pb-20">
       <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
         <div>
           <h2 className="text-3xl font-bold text-[#111827] tracking-tight">Command Center</h2>
           <p className="text-[#6B7280] mt-1 text-xs font-mono uppercase">User: Aman // Role: Admin</p>
         </div>
         <div className="flex gap-3">
-           <Button onClick={onNew}><FileUp size={14}/> New Project</Button>
+           <Button onClick={onNew}><FileText size={14}/> New Project</Button>
         </div>
       </div>
 
@@ -264,7 +263,7 @@ const DashboardPage = ({ onNew }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-10">
         {stats.map((s) => {
           const Icon = s.icon;
-          if (!Icon) return null; // Guard against undefined icons
+          if (!Icon) return null;
           return (
             <div key={s.label} className="bg-white border border-[#E5E7EB] p-4 rounded-xl flex flex-col justify-between h-24 hover:shadow-md transition-shadow">
               <div className="flex justify-between items-start">
@@ -373,7 +372,7 @@ const WorkstationPage = ({ onReset }) => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-10 w-full px-4 animate-fade-in">
+    <div className="max-w-5xl mx-auto py-10 w-full px-4 animate-fade-in pb-20">
       {/* Wizard Progress */}
       <div className="flex items-center justify-between mb-12 px-2 md:px-10 relative">
         <div className="absolute left-0 right-0 top-2 h-0.5 bg-[#E5E7EB] -z-10"></div>
@@ -416,19 +415,21 @@ const WorkstationPage = ({ onReset }) => {
       )}
 
       {step === 1 && (
-        <div className="text-center py-16 border-2 border-dashed border-[#E5E7EB] rounded-2xl hover:border-[#8B5CF6] transition-colors bg-white relative">
+        <div className="flex flex-col items-center justify-center py-16 border-2 border-dashed border-[#E5E7EB] rounded-2xl hover:border-[#8B5CF6] transition-colors bg-white relative text-center">
            <input 
              type="file" 
              className="hidden" 
              ref={fileInputRef}
              onChange={handleFileSelect}
            />
-           <div className="w-16 h-16 bg-[#EDE9FE] rounded-full flex items-center justify-center mx-auto mb-6">
-              <FileUp size={32} className="text-[#8B5CF6]" />
+           <div className="w-16 h-16 bg-[#EDE9FE] rounded-full flex items-center justify-center mb-6">
+              <FileText size={32} className="text-[#8B5CF6]" />
            </div>
            <h3 className="text-xl font-bold text-[#111827] mb-2">Upload RFP Document</h3>
-           <p className="text-[#6B7280] mb-8 text-sm font-mono">PDF, DOCX supported. LlamaParse Active.</p>
-           <Button onClick={() => fileInputRef.current?.click()}>Select File & Analyze</Button>
+           <p className="text-[#6B7280] mb-8 text-sm font-mono max-w-md mx-auto">PDF, DOCX supported. LlamaParse Active.</p>
+           <div className="w-full flex justify-center">
+             <Button onClick={() => fileInputRef.current?.click()}>Select File & Analyze</Button>
+           </div>
         </div>
       )}
 
@@ -448,12 +449,15 @@ const WorkstationPage = ({ onReset }) => {
       )}
 
       {step === 3 && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-           <div className="lg:col-span-2 space-y-6">
-              <div className="flex justify-between items-center">
-                 <h2 className="text-xl font-bold text-[#111827]">Requirement Analysis</h2>
-                 <Button onClick={() => setStep(4)} className="py-2 h-10">Approve Draft</Button>
-              </div>
+        <div className="space-y-8">
+           {/* Header */}
+           <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold text-[#111827]">Requirement Analysis</h2>
+           </div>
+           
+           {/* Main Content: Requirements + Metrics stacked vertically */}
+           <div className="space-y-6">
+              {/* Requirements List */}
               <div className="space-y-4">
                  {[
                    { type: 'Critical', text: 'Must support 50k concurrent users.', match: 'Verified (Tech Stack Doc)' },
@@ -469,26 +473,38 @@ const WorkstationPage = ({ onReset }) => {
                    </div>
                  ))}
               </div>
+
+              {/* Metrics Row - Horizontal Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                 <Card>
+                    <div className="text-center">
+                       <h4 className="text-sm font-bold text-[#111827] mb-2">Confidence</h4>
+                       <div className="text-4xl font-bold text-emerald-600 mb-1">94%</div>
+                       <p className="text-[10px] text-[#6B7280] uppercase tracking-widest">Match Score</p>
+                    </div>
+                 </Card>
+                 <Card>
+                    <div className="text-center">
+                       <h4 className="text-sm font-bold text-[#111827] mb-2">Est. Effort</h4>
+                       <div className="text-4xl font-bold text-[#111827] mb-1">3 <span className="text-lg text-[#6B7280]">wks</span></div>
+                       <p className="text-[10px] text-[#6B7280] uppercase tracking-widest">Implementation</p>
+                    </div>
+                 </Card>
+                 <Card>
+                    <div className="text-center">
+                       <h4 className="text-sm font-bold text-[#111827] mb-2">Est. Cost</h4>
+                       <div className="text-4xl font-bold text-[#111827] mb-1">$12<span className="text-lg text-[#6B7280]">k</span></div>
+                       <p className="text-[10px] text-[#6B7280] uppercase tracking-widest">Project Budget</p>
+                    </div>
+                 </Card>
+              </div>
            </div>
-           <div className="space-y-4">
-              <Card title="Confidence">
-                 <div className="text-center py-4">
-                    <div className="text-4xl font-bold text-emerald-600 mb-1">94%</div>
-                    <p className="text-xs text-[#6B7280] uppercase tracking-widest">Match Score</p>
-                 </div>
-              </Card>
-              <Card title="Est. Effort">
-                 <div className="text-center py-4">
-                    <div className="text-4xl font-bold text-[#111827] mb-1">3 <span className="text-lg text-[#6B7280]">wks</span></div>
-                    <p className="text-xs text-[#6B7280] uppercase tracking-widest">Implementation</p>
-                 </div>
-              </Card>
-              <Card title="Est. Cost">
-                 <div className="text-center py-4">
-                    <div className="text-4xl font-bold text-[#111827] mb-1">$12<span className="text-lg text-[#6B7280]">k</span></div>
-                    <p className="text-xs text-[#6B7280] uppercase tracking-widest">Project Budget</p>
-                 </div>
-              </Card>
+           
+           {/* Bottom Action Bar */}
+           <div className="flex justify-end pt-2">
+               <Button onClick={() => setStep(4)} className="w-full sm:w-auto">
+                 Approve Draft & Export <ChevronRight size={14} className="ml-1" />
+               </Button>
            </div>
         </div>
       )}
@@ -525,7 +541,7 @@ export default function App() {
     // Explicit background style as failsafe with inline minHeight
     <div 
       className={`w-full h-full font-sans selection:bg-[#EDE9FE] selection:text-[#6D28D9] flex flex-col ${THEME.bg} ${THEME.textMain}`}
-      style={{ backgroundColor: '#F8FAFC', color: '#111827', minHeight: '100vh' }}
+      style={{ backgroundColor: '#F8FAFC', color: '#111827', minHeight: '100vh', width: '100%' }}
     >
       
       {/* Navigation - Dark Theme as requested via "BottomNavBackground" color */}
